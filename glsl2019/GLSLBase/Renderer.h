@@ -24,7 +24,16 @@ public:
 	   
 	void Test();
 	void Lecture2();
-	void GenQuadsVBO(int count);
+	void Lecture04();
+	void Lecture05();
+	void Lecture06();
+	void Lecture07();
+	void Lecture08();	// 190403
+	void Lecture09();	// 190408
+	void Lecture10();	// 190410
+	void DrawTextureRect();	// 190417
+	void FillAll();
+	void GenQuadsVBO(int count, bool what, GLuint* x, GLuint y);
 	void GenQuads();
 	void CreateProxyGeometry();
 
@@ -42,12 +51,29 @@ private:
 	unsigned int m_WindowSizeY = 0;
 
 	GLuint m_VBORect = 0;
+	GLuint m_VBORectColor = 0;
+	GLuint m_VBOCircle = 0;
 	GLuint m_VBOTri = 0;
 	GLuint m_VBOQuads = 0;
 	GLuint m_VBO_ProxyGeo = 0;
-	GLuint m_SolidRectShader = 0;
 	GLuint m_Count_ProxyGeo = 0;
+	
+	float test_count = 0;
+	
 
 	unsigned int m_VBOQuads_VertexCount;
+
+	//Shaders
+	GLuint m_SolidRectShader = 0;
+	GLuint m_solidSampleShader = 0;
+	GLuint m_solidSinShader = 0;
+	GLuint m_solidCircleShader = 0;
+	GLuint m_solidFillAllShader = 0;
+	GLuint m_solidTextureShader = 0;
+
+	//Texture
+	GLuint m_Texture_1 = 0;
+	GLuint m_Texture_2 = 0;
+	GLuint m_Texture_3 = 0;
 };
 

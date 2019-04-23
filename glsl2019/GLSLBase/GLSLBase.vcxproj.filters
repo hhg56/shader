@@ -35,6 +35,36 @@
     <None Include="Shaders\SolidRect.fs">
       <Filter>Shader</Filter>
     </None>
+    <None Include="Shaders\my_SolidRect_190325.fs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shaders\my_SolidRect_190325.vs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shaders\my_sin_trail.fs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shaders\my_sin_trail.vs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shaders\SolidRect_190410.fs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shaders\SolidRect_190410.vs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shaders\Fill_All.fs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shaders\Fill_All.vs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shaders\Texture.fs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shaders\Texture.vs">
+      <Filter>Shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

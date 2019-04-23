@@ -24,11 +24,21 @@ void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	
+	//g_Renderer->FillAll();
 
 	// Renderer Test
-	// g_Renderer->Test();
-	g_Renderer->Lecture2();
+	//g_Renderer->Test();
+	//g_Renderer->Lecture2();
 	//g_Renderer->GenQuads();
+	//g_Renderer->Lecture04();
+	//g_Renderer->Lecture05();
+	//g_Renderer->Lecture06();
+	//g_Renderer->Lecture07();
+	//g_Renderer->Lecture08();
+	//g_Renderer->Lecture09();
+	//g_Renderer->Lecture10();
+	g_Renderer->DrawTextureRect();
 
 	glutSwapBuffers();
 }

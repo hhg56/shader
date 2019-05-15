@@ -73,7 +73,7 @@ int main(int argc, char **argv)
 	glutCreateWindow("GLSL KPU");
 
 	glewInit();
-	if (glewIsSupported("GL_VERSION_4_6"))
+	if (glewIsSupported("GL_VERSION_4_4"))
 	{
 		std::cout << " GL Version is 4.6\n ";
 	}

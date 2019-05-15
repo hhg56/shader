@@ -29,8 +29,8 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 	m_solidTextureShader = CompileShaders("./Shaders/Texture.vs", "./Shaders/Texture.fs");
 	
 	m_Texture_1 = CreatePngTexture("./Texture/Explosion.png");
-	m_Texture_2 = CreatePngTexture("./Texture/Explosion.png");
-	m_Texture_3 = CreatePngTexture("./Texture/Explosion.png");
+	m_Texture_2 = CreatePngTexture("./Texture/pororo.png");
+	m_Texture_3 = CreatePngTexture("./Texture/rgb.png");
 
 	//Create VBOs
 	CreateVertexBufferObjects();
@@ -80,7 +80,7 @@ void Renderer::CreateVertexBufferObjects()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(tri), tri, GL_STATIC_DRAW);
 	
 	//Lecture10
-	float Csize = 0.5f;
+	float Csize = 1.0f;
 	float Circle[] =
 	{
 		-Csize, -Csize, 0.f,	0.f, 0.f,	// x, y, z, uv.x, uv.y
@@ -93,6 +93,26 @@ void Renderer::CreateVertexBufferObjects()
 	glGenBuffers(1, &m_VBOCircle);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBOCircle);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Circle), Circle, GL_STATIC_DRAW);
+
+	static const GLulong checkerboard[] =
+	{
+	0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+	0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF,
+	0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+	0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF,
+	0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+	0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF,
+	0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+	0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF
+	};
+	glGenTextures(1, &gTextureID);
+	glBindTexture(GL_TEXTURE_2D, gTextureID);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 8, 8, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkerboard);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
 
 	GenQuadsVBO(10000, false, &m_VBOQuads, 0);
 }
@@ -318,7 +338,7 @@ GLuint Renderer::CreateBmpTexture(char * filePath)
 	glBindTexture(GL_TEXTURE_2D, temp);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, bmp);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, bmp);	// GL_RGBA -> GL_RGB	: BMP이미지는 A값이 없엉
 
 	return temp;
 }
@@ -618,8 +638,22 @@ void Renderer::DrawTextureRect()
 
 	int uTex = glGetUniformLocation(shader, "u_Texture");
 	glUniform1i(uTex, 0);
+	int uTex1 = glGetUniformLocation(shader, "u_Texture_1");
+	glUniform1i(uTex1, 1);
+	int uTex2 = glGetUniformLocation(shader, "u_Texture_2");
+	glUniform1i(uTex2, 2);
+	int uTex3 = glGetUniformLocation(shader, "u_Texture_3");
+	glUniform1i(uTex3, 3);
+
+
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_Texture_1);
+	glBindTexture(GL_TEXTURE_2D, gTextureID);	// gTextureID, m_Texture_1
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, m_Texture_1);	// gTextureID, m_Texture_1
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, m_Texture_2);	// gTextureID, m_Texture_1
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, m_Texture_3);	// gTextureID, m_Texture_1
 
 	GLuint aPos = glGetAttribLocation(shader, "a_Position");
 	GLuint aTex = glGetAttribLocation(shader, "a_Texture");

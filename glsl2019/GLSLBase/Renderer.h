@@ -75,5 +75,7 @@ private:
 	GLuint m_Texture_1 = 0;
 	GLuint m_Texture_2 = 0;
 	GLuint m_Texture_3 = 0;
+
+	GLuint gTextureID = 0;
 };
 

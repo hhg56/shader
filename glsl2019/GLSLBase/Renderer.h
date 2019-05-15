@@ -32,6 +32,7 @@ public:
 	void Lecture09();	// 190408
 	void Lecture10();	// 190410
 	void DrawTextureRect();	// 190417
+	void DrawNumber(int* number);		// 190515
 	void FillAll();
 	void GenQuadsVBO(int count, bool what, GLuint* x, GLuint y);
 	void GenQuads();
@@ -60,7 +61,6 @@ private:
 	
 	float test_count = 0;
 	
-
 	unsigned int m_VBOQuads_VertexCount;
 
 	//Shaders
@@ -70,11 +70,13 @@ private:
 	GLuint m_solidCircleShader = 0;
 	GLuint m_solidFillAllShader = 0;
 	GLuint m_solidTextureShader = 0;
-
+	GLuint m_solidDrawNumberShader = 0;
+	
 	//Texture
 	GLuint m_Texture_1 = 0;
 	GLuint m_Texture_2 = 0;
 	GLuint m_Texture_3 = 0;
+	GLuint m_Texture_test[1];
 
 	GLuint gTextureID = 0;
 };

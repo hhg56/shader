@@ -38,7 +38,9 @@ void RenderScene(void)
 	//g_Renderer->Lecture08();
 	//g_Renderer->Lecture09();
 	//g_Renderer->Lecture10();
-	g_Renderer->DrawTextureRect();
+	//g_Renderer->DrawTextureRect();
+	static int gNum[3] = { 3 ,6, 9};
+	g_Renderer->DrawNumber(gNum);
 
 	glutSwapBuffers();
 }

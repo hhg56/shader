@@ -65,6 +65,12 @@
     <None Include="Shaders\Texture.vs">
       <Filter>Shader</Filter>
     </None>
+    <None Include="Shaders\DrawNumber.fs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shaders\DrawNumber.vs">
+      <Filter>Shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

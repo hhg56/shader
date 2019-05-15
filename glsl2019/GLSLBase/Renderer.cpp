@@ -27,10 +27,12 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 	m_solidCircleShader = CompileShaders("./Shaders/SolidRect_190410.vs", "./Shaders/SolidRect_190410.fs");
 	m_solidFillAllShader = CompileShaders("./Shaders/Fill_All.vs", "./Shaders/Fill_All.fs");
 	m_solidTextureShader = CompileShaders("./Shaders/Texture.vs", "./Shaders/Texture.fs");
+	m_solidDrawNumberShader = CompileShaders("./Shaders/Drawnumber.vs", "./Shaders/Drawnumber.fs");
 	
 	m_Texture_1 = CreatePngTexture("./Texture/Explosion.png");
 	m_Texture_2 = CreatePngTexture("./Texture/pororo.png");
 	m_Texture_3 = CreatePngTexture("./Texture/rgb.png");
+	m_Texture_test[0] = CreatePngTexture("./Texture/numbers.png");	// number
 
 	//Create VBOs
 	CreateVertexBufferObjects();
@@ -644,8 +646,9 @@ void Renderer::DrawTextureRect()
 	glUniform1i(uTex2, 2);
 	int uTex3 = glGetUniformLocation(shader, "u_Texture_3");
 	glUniform1i(uTex3, 3);
-
-
+	int uTex4 = glGetUniformLocation(shader, "u_Texture_test");
+	glUniform1i(uTex4, 4);
+	
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gTextureID);	// gTextureID, m_Texture_1
 	glActiveTexture(GL_TEXTURE1);
@@ -654,6 +657,8 @@ void Renderer::DrawTextureRect()
 	glBindTexture(GL_TEXTURE_2D, m_Texture_2);	// gTextureID, m_Texture_1
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, m_Texture_3);	// gTextureID, m_Texture_1
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, m_Texture_test[0]);	// gTextureID, m_Texture_1
 
 	GLuint aPos = glGetAttribLocation(shader, "a_Position");
 	GLuint aTex = glGetAttribLocation(shader, "a_Texture");
@@ -671,6 +676,48 @@ void Renderer::DrawTextureRect()
 	glDisableVertexAttribArray(aPos);
 	glDisableVertexAttribArray(aTex);
 }
+
+void Renderer::DrawNumber(int *number)
+{
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	GLuint shader = m_solidDrawNumberShader;
+
+	glUseProgram(shader);
+
+	// Vertex Setting
+	GLuint aPos = glGetAttribLocation(shader, "a_Position");
+	GLuint aTex = glGetAttribLocation(shader, "a_Texture");
+	glEnableVertexAttribArray(aPos);	//  기말에도 낸다.
+	glEnableVertexAttribArray(aTex);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBOCircle);
+	glVertexAttribPointer(aPos, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);
+	glVertexAttribPointer(aTex, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (GLvoid*)(sizeof(float) * 3));
+
+	// texture Setting
+	GLuint uTex = glGetUniformLocation(shader, "u_Texture");
+	glUniform1i(uTex, 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_Texture_test[0]);
+
+	// Time Setting
+	GLuint uTime = glGetUniformLocation(shader, "u_Time");	//Uniform과Attirute값 구분 필수!!
+	if (test_count >= 9) test_count = 0;
+	else test_count += 0.01f;
+	glUniform1f(uTime, test_count);
+		
+	GLuint u_Number = glGetUniformLocation(shader, "u_Number");	//Uniform과Attirute값 구분 필수!!
+	glUniform1iv(u_Number, 3, number);
+	
+	// Draw Here
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+	// Restore
+	glDisableVertexAttribArray(aPos);
+	glDisableVertexAttribArray(aTex);
+}
+
 void Renderer::FillAll()
 {
 	glEnable(GL_BLEND);
